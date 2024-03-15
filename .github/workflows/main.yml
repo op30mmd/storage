@@ -1,1 +1,34 @@
+name: Upload DL File to Release
 
+on:
+  push:
+  release:
+    types: [created]
+
+jobs:
+  upload-to-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: mkdir
+        run: mkdir files
+
+      - name: cd
+        run: cd files
+      
+      - name: Download file
+        run: wget
+
+      - name: Upload to releases
+        uses: xresloader/upload-to-github-release@v1.5.0
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "*"
+          tags: false
+          draft: false
+          tag_name: storage
+
+      - name: status
+        run: echo uploaded successfuly✅
