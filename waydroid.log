@@ -1,0 +1,1048 @@
+(011544) [14:38:47] Save config: /var/lib/waydroid/waydroid.cfg
+(011544) [14:38:48] % mkdir -p /var/lib/waydroid/cache_http
+(011544) [14:38:48] Downloading https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20250104-VANILLA-waydroid_x86_64-system.zip/download
+(011544) [14:43:08] Validating system image
+(011544) [14:43:12] Extracting to /var/lib/waydroid/images
+(011544) [14:43:56] Save config: /var/lib/waydroid/waydroid.cfg
+(011544) [14:43:58] Downloading https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-18.1-20250104-MAINLINE-waydroid_x86_64-vendor.zip/download
+(011544) [14:44:51] Validating vendor image
+(011544) [14:44:52] Extracting to /var/lib/waydroid/images
+(011544) [14:44:54] Save config: /var/lib/waydroid/waydroid.cfg
+(011544) [14:44:54] % modprobe -q ashmem_linux
+(011544) [14:44:57] % lxc-info --version
+6.0.2
+(011544) [14:44:58] % mkdir -p /var/lib/waydroid/lxc/waydroid
+(011544) [14:44:58] % sh -c cat "/usr/lib/waydroid/data/configs/config_base" "/usr/lib/waydroid/data/configs/config_3" "/usr/lib/waydroid/data/configs/config_4" > "/var/lib/waydroid/lxc/waydroid/config"
+(011544) [14:44:59] % sed -i s/LXCARCH/x86_64/ /var/lib/waydroid/lxc/waydroid/config
+(011544) [14:44:59] % cp -fpr /usr/lib/waydroid/data/configs/waydroid.seccomp /var/lib/waydroid/lxc/waydroid/waydroid.seccomp
+(011544) [14:44:59] % mv /var/lib/waydroid/config_nodes /var/lib/waydroid/lxc/waydroid
+(010724) [14:45:03] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [14:45:03] % modprobe -q ashmem_linux
+(010724) [14:45:03] % chmod 666 -R /dev/binder
+(011034) [14:45:03] Starting waydroid session
+(010724) [14:45:03] % chmod 666 -R /dev/vndbinder
+(010724) [14:45:03] % chmod 666 -R /dev/hwbinder
+(010724) [14:45:03] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+success
+(010724) [14:45:13] % chmod 777 -R /dev/dri
+(010724) [14:45:13] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(010724) [14:45:13] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(010724) [14:45:14] % mkdir -p /var/lib/waydroid/overlay_work/system
+(010724) [14:45:14] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(010724) [14:45:14] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(010724) [14:45:14] % mkdir -p /var/lib/waydroid/overlay_work/vendor
+(010724) [14:45:14] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(010724) [14:45:14] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [14:45:14] Save config: /var/lib/waydroid/waydroid.cfg
+(010724) [14:45:14] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(010724) [14:45:14] New background process: pid=12122, output=background
+(010724) [14:45:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(011034) [14:47:23] waydroidusermonitor: Received transaction: 1
+(011034) [14:47:23] Android with user 0 is ready
+(011034) [14:47:23] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 13556
+--- adb starting (pid 13556) ---
+01-06 14:47:25.101 13556 13556 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 14:47:25.101 13556 13556 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 14:47:25.101 13556 13556 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 14:47:25.101 13556 13556 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 14:47:25.101 13556 13556 I adb     : main.cpp:63 
+01-06 14:47:25.135 13556 13556 I adb     : auth.cpp:416 adb_auth_init...
+01-06 14:47:25.156 13556 13556 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 14:47:25.156 13556 13556 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 14:47:26.135 13556 13556 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 14:47:26.135 13556 13556 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(011034) [14:47:30] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(011034) [14:47:30] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(010724) [14:59:44] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [14:59:44] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(010724) [14:59:44] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [14:59:44] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(010724) [14:59:44] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [14:59:45] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [14:59:45] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [14:59:45] % umount /var/lib/waydroid/rootfs
+(010724) [14:59:45] % umount /var/lib/waydroid/rootfs
+(016254) [15:00:02] Starting waydroid session
+(010724) [15:00:02] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(010724) [15:00:03] % chmod 777 -R /dev/dri
+(010724) [15:00:03] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(010724) [15:00:03] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(010724) [15:00:03] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(010724) [15:00:03] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(010724) [15:00:03] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(010724) [15:00:03] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:00:03] Save config: /var/lib/waydroid/waydroid.cfg
+(010724) [15:00:03] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(010724) [15:00:03] New background process: pid=16316, output=background
+(010724) [15:00:03] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:00:03] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:00:04] waiting 10 seconds for container to start...
+(016254) [15:01:27] waydroidusermonitor: Received transaction: 1
+(016254) [15:01:27] Android with user 0 is ready
+(016254) [15:01:27] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 17467
+--- adb starting (pid 17467) ---
+01-06 15:01:29.129 17467 17467 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 15:01:29.129 17467 17467 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 15:01:29.129 17467 17467 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 15:01:29.129 17467 17467 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 15:01:29.129 17467 17467 I adb     : main.cpp:63 
+01-06 15:01:29.195 17467 17467 I adb     : auth.cpp:416 adb_auth_init...
+01-06 15:01:29.223 17467 17467 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 15:01:29.223 17467 17467 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 15:01:30.195 17467 17467 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 15:01:30.195 17467 17467 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(016254) [15:01:33] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(016254) [15:01:33] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(010724) [15:06:08] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:06:08] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(010724) [15:06:09] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:06:09] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(010724) [15:06:11] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:06:11] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:06:11] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:06:11] % umount /var/lib/waydroid/rootfs
+(010724) [15:06:11] % umount /var/lib/waydroid/rootfs
+(018982) [15:08:06] % tail -n 60 -F /var/lib/waydroid/waydroid.log
+(018982) [15:08:06] *** output passed to waydroid stdout, not to this log ***
+(019138) [15:09:57] ERROR: Action "container" needs root access
+(019138) [15:09:57] See also: <https://github.com/waydroid>
+(019138) [15:09:57] Traceback (most recent call last):
+  File "/usr/lib/waydroid/tools/__init__.py", line 77, in main
+    actionNeedRoot(args.action)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/waydroid/tools/__init__.py", line 21, in actionNeedRoot
+    raise RuntimeError(
+        "Action \"{}\" needs root access".format(action))
+RuntimeError: Action "container" needs root access
+
+(019220) [15:10:21] Starting waydroid session
+(010724) [15:10:21] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+FirewallD is not running
+(010724) [15:10:22] % chmod 777 -R /dev/dri
+(010724) [15:10:22] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(010724) [15:10:22] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(010724) [15:10:22] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(010724) [15:10:22] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(010724) [15:10:23] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(010724) [15:10:23] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:10:23] Save config: /var/lib/waydroid/waydroid.cfg
+(010724) [15:10:23] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(010724) [15:10:23] New background process: pid=19280, output=background
+(010724) [15:10:23] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:10:23] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:10:23] waiting 10 seconds for container to start...
+(019220) [15:11:38] waydroidusermonitor: Received transaction: 1
+(019220) [15:11:38] Android with user 0 is ready
+(019220) [15:11:38] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 20447
+--- adb starting (pid 20447) ---
+01-06 15:11:39.293 20447 20447 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 15:11:39.293 20447 20447 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 15:11:39.293 20447 20447 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 15:11:39.293 20447 20447 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 15:11:39.293 20447 20447 I adb     : main.cpp:63 
+01-06 15:11:39.299 20447 20447 I adb     : auth.cpp:416 adb_auth_init...
+01-06 15:11:39.341 20447 20447 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 15:11:39.341 20447 20447 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 15:11:40.299 20447 20447 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 15:11:40.299 20447 20447 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(019220) [15:11:41] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(019220) [15:11:41] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(010724) [15:15:58] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:15:58] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(010724) [15:15:59] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:15:59] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(010724) [15:16:00] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:16:00] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:16:00] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:16:00] % umount /var/lib/waydroid/rootfs
+(010724) [15:16:00] % umount /var/lib/waydroid/rootfs
+(010724) [15:17:14] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(010724) [15:17:15] % chmod 777 -R /dev/dri
+(010724) [15:17:15] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(010724) [15:17:15] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(010724) [15:17:15] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(010724) [15:17:15] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(010724) [15:17:15] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(010724) [15:17:15] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:17:15] Save config: /var/lib/waydroid/waydroid.cfg
+(010724) [15:17:15] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(010724) [15:17:15] New background process: pid=21937, output=background
+(010724) [15:17:15] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:17:15] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:17:16] waiting 10 seconds for container to start...
+(010724) [15:18:27] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:18:27] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(010724) [15:18:27] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:18:27] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(010724) [15:18:28] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:18:28] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:18:28] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:18:28] % umount /var/lib/waydroid/rootfs
+(010724) [15:18:28] % umount /var/lib/waydroid/rootfs
+(023027) [15:19:06] Hardware service is not even started
+(023027) [15:19:06] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(023027) [15:19:06] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(023027) [15:19:06] % systemctl is-enabled -q nfcd
+(010724) [15:19:26] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(010724) [15:19:27] % chmod 777 -R /dev/dri
+(010724) [15:19:27] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(010724) [15:19:27] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(010724) [15:19:27] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(010724) [15:19:27] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(010724) [15:19:27] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(010724) [15:19:27] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:19:27] Save config: /var/lib/waydroid/waydroid.cfg
+(010724) [15:19:27] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(010724) [15:19:27] New background process: pid=23149, output=background
+(010724) [15:19:27] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:20:13] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(010724) [15:20:13] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(010724) [15:20:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:20:14] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(010724) [15:20:15] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(010724) [15:20:15] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:20:15] % umount /var/lib/waydroid/rootfs/vendor
+(010724) [15:20:15] % umount /var/lib/waydroid/rootfs
+(010724) [15:20:15] % umount /var/lib/waydroid/rootfs
+(010724) [15:20:29] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(010724) [15:20:29] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(023720) [15:20:32] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(023720) [15:20:32] % modprobe -q ashmem_linux
+(023720) [15:20:32] % chmod 666 -R /dev/binder
+(023720) [15:20:32] % chmod 666 -R /dev/vndbinder
+(023720) [15:20:32] % chmod 666 -R /dev/hwbinder
+(023834) [15:21:50] Starting waydroid session
+(023720) [15:21:50] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(023720) [15:21:51] % chmod 777 -R /dev/dri
+(023720) [15:21:51] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(023720) [15:21:51] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(023720) [15:21:51] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(023720) [15:21:51] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(023720) [15:21:51] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(023720) [15:21:51] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(023720) [15:21:51] Save config: /var/lib/waydroid/waydroid.cfg
+(023720) [15:21:51] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(023720) [15:21:51] New background process: pid=23893, output=background
+(023720) [15:21:51] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(023720) [15:21:51] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(023720) [15:21:51] waiting 10 seconds for container to start...
+(023720) [15:21:52] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(023720) [15:21:52] waiting 9 seconds for container to start...
+(023834) [15:22:36] waydroidusermonitor: Received transaction: 1
+(023834) [15:22:36] Android with user 0 is ready
+(023834) [15:22:36] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 25070
+--- adb starting (pid 25070) ---
+01-06 15:22:37.416 25070 25070 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 15:22:37.416 25070 25070 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 15:22:37.416 25070 25070 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 15:22:37.416 25070 25070 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 15:22:37.416 25070 25070 I adb     : main.cpp:63 
+01-06 15:22:37.423 25070 25070 I adb     : auth.cpp:416 adb_auth_init...
+01-06 15:22:37.435 25070 25070 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 15:22:37.435 25070 25070 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 15:22:38.423 25070 25070 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 15:22:38.423 25070 25070 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(023834) [15:22:40] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(023834) [15:22:40] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(023720) [15:41:19] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(023720) [15:41:20] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(023720) [15:41:20] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(023720) [15:41:20] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+/usr/lib/waydroid/data/scripts/waydroid-net.sh: line 257: kill: (23882) - No such process
+(023720) [15:41:22] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(023720) [15:41:22] % umount /var/lib/waydroid/rootfs/vendor
+(023720) [15:41:22] % umount /var/lib/waydroid/rootfs/vendor
+(023720) [15:41:22] % umount /var/lib/waydroid/rootfs
+(023720) [15:41:22] % umount /var/lib/waydroid/rootfs
+(029516) [15:41:27] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(029516) [15:41:27] % modprobe -q ashmem_linux
+(029516) [15:41:27] % chmod 666 -R /dev/binder
+(029516) [15:41:27] % chmod 666 -R /dev/vndbinder
+(029516) [15:41:27] % chmod 666 -R /dev/hwbinder
+(029802) [15:44:39] WayDroid session is stopped
+(029837) [15:45:01] Starting waydroid session
+(029516) [15:45:01] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(029516) [15:45:02] % chmod 777 -R /dev/dri
+(029516) [15:45:02] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(029516) [15:45:02] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(029516) [15:45:03] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(029516) [15:45:03] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(029516) [15:45:03] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(029516) [15:45:03] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(029516) [15:45:03] Save config: /var/lib/waydroid/waydroid.cfg
+(029516) [15:45:03] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(029516) [15:45:03] New background process: pid=29899, output=background
+(029516) [15:45:03] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(029516) [15:45:46] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(030226) [15:45:47] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:48] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:49] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:50] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:51] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:52] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:53] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:54] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:55] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:56] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:57] Failed to get service waydroidplatform, trying again...
+(030226) [15:45:58] Failed to get service waydroidplatform, trying again...
+(029837) [15:46:39] waydroidusermonitor: Received transaction: 1
+(029837) [15:46:39] Android with user 0 is ready
+(029837) [15:46:39] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 31159
+--- adb starting (pid 31159) ---
+01-06 15:46:40.004 31159 31159 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 15:46:40.004 31159 31159 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 15:46:40.004 31159 31159 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 15:46:40.004 31159 31159 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 15:46:40.004 31159 31159 I adb     : main.cpp:63 
+01-06 15:46:40.009 31159 31159 I adb     : auth.cpp:416 adb_auth_init...
+01-06 15:46:40.054 31159 31159 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 15:46:40.054 31159 31159 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 15:46:41.009 31159 31159 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 15:46:41.009 31159 31159 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(029837) [15:46:42] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(029837) [15:46:42] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(029516) [15:47:17] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(029516) [15:47:40] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(029516) [15:47:40] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(029516) [15:47:41] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(029516) [15:47:41] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+/usr/lib/waydroid/data/scripts/waydroid-net.sh: line 257: kill: (29884) - No such process
+(029516) [15:47:43] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(029516) [15:47:43] % umount /var/lib/waydroid/rootfs/vendor
+(029516) [15:47:43] % umount /var/lib/waydroid/rootfs/vendor
+(029516) [15:47:43] % umount /var/lib/waydroid/rootfs
+(029516) [15:47:43] % umount /var/lib/waydroid/rootfs
+(031897) [15:47:50] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [15:47:50] % modprobe -q ashmem_linux
+(031897) [15:47:50] % chmod 666 -R /dev/binder
+(031897) [15:47:50] % chmod 666 -R /dev/vndbinder
+(031897) [15:47:50] % chmod 666 -R /dev/hwbinder
+(032098) [15:49:09] Starting waydroid session
+(031897) [15:49:09] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(031897) [15:49:10] % chmod 777 -R /dev/dri
+(031897) [15:49:10] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(031897) [15:49:10] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(031897) [15:49:10] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(031897) [15:49:10] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(031897) [15:49:11] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(031897) [15:49:11] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(031897) [15:49:11] Save config: /var/lib/waydroid/waydroid.cfg
+(031897) [15:49:11] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(031897) [15:49:11] New background process: pid=32162, output=background
+(031897) [15:49:11] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(032098) [15:50:51] waydroidusermonitor: Received transaction: 1
+(032098) [15:50:51] Android with user 0 is ready
+(032098) [15:50:51] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 33323
+--- adb starting (pid 33323) ---
+01-06 15:50:52.259 33323 33323 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 15:50:52.259 33323 33323 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 15:50:52.259 33323 33323 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 15:50:52.259 33323 33323 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 15:50:52.259 33323 33323 I adb     : main.cpp:63 
+01-06 15:50:52.324 33323 33323 I adb     : auth.cpp:416 adb_auth_init...
+01-06 15:50:52.335 33323 33323 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 15:50:52.335 33323 33323 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 15:50:53.324 33323 33323 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 15:50:53.324 33323 33323 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(032098) [15:50:55] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(032098) [15:50:55] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(031897) [16:01:11] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(031897) [16:01:38] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(031897) [16:01:38] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(031897) [16:01:38] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [16:01:38] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(031897) [16:01:40] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(031897) [16:01:41] % umount /var/lib/waydroid/rootfs/vendor
+(031897) [16:01:41] % umount /var/lib/waydroid/rootfs/vendor
+(031897) [16:01:41] % umount /var/lib/waydroid/rootfs
+(031897) [16:01:41] % umount /var/lib/waydroid/rootfs
+(035148) [16:01:49] Starting waydroid session
+(031897) [16:01:49] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(031897) [16:01:50] % chmod 777 -R /dev/dri
+(031897) [16:01:50] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(031897) [16:01:50] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(031897) [16:01:51] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(031897) [16:01:51] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(031897) [16:01:51] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(031897) [16:01:51] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(031897) [16:01:51] Save config: /var/lib/waydroid/waydroid.cfg
+(031897) [16:01:51] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(031897) [16:01:51] New background process: pid=35205, output=background
+(031897) [16:01:51] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [16:01:51] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [16:01:51] waiting 10 seconds for container to start...
+(031897) [16:01:52] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(031897) [16:01:52] waiting 9 seconds for container to start...
+(035148) [16:03:09] waydroidusermonitor: Received transaction: 1
+(035148) [16:03:09] Android with user 0 is ready
+(035148) [16:03:09] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 36416
+--- adb starting (pid 36416) ---
+01-06 16:03:10.953 36416 36416 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-06 16:03:10.953 36416 36416 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-06 16:03:10.953 36416 36416 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-06 16:03:10.953 36416 36416 I adb     : main.cpp:63 Running on Linux 6.12.7-200.fc41.x86_64 (x86_64)
+01-06 16:03:10.953 36416 36416 I adb     : main.cpp:63 
+01-06 16:03:10.995 36416 36416 I adb     : auth.cpp:416 adb_auth_init...
+01-06 16:03:11.052 36416 36416 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-06 16:03:11.052 36416 36416 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-06 16:03:11.995 36416 36416 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-06 16:03:11.995 36416 36416 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(035148) [16:03:14] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(035148) [16:03:14] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(031897) [16:08:13] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(031897) [16:08:13] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(031897) [16:08:13] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [16:08:13] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+(031897) [16:08:15] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(031897) [16:08:16] % umount /var/lib/waydroid/rootfs/vendor
+(031897) [16:08:16] % umount /var/lib/waydroid/rootfs/vendor
+(031897) [16:08:16] % umount /var/lib/waydroid/rootfs
+(031897) [16:08:16] % umount /var/lib/waydroid/rootfs
+(054482) [23:19:52] ERROR: Action "init" needs root access
+(054482) [23:19:52] See also: <https://github.com/waydroid>
+(054482) [23:19:52] Traceback (most recent call last):
+  File "/usr/lib/waydroid/tools/__init__.py", line 63, in main
+    actionNeedRoot(args.action)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/waydroid/tools/__init__.py", line 21, in actionNeedRoot
+    raise RuntimeError(
+        "Action \"{}\" needs root access".format(action))
+RuntimeError: Action "init" needs root access
+
+(054541) [23:20:04] Already initialized
+(031897) [01:40:40] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(031897) [01:40:46] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001078) [14:39:04] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001078) [14:39:05] % modprobe -q ashmem_linux
+(001078) [14:39:05] % chmod 666 -R /dev/binder
+(001078) [14:39:05] % chmod 666 -R /dev/vndbinder
+(001078) [14:39:05] % chmod 666 -R /dev/hwbinder
+(001078) [01:25:48] Hardware service is not even started
+(001078) [01:25:48] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001078) [01:25:52] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001073) [12:12:28] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001073) [12:12:28] % modprobe -q ashmem_linux
+(001073) [12:12:29] % chmod 666 -R /dev/binder
+(001073) [12:12:29] % chmod 666 -R /dev/vndbinder
+(001073) [12:12:29] % chmod 666 -R /dev/hwbinder
+(001073) [02:01:36] Hardware service is not even started
+(001073) [02:01:37] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001073) [02:01:42] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001069) [12:46:34] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001069) [12:46:35] % modprobe -q ashmem_linux
+(001069) [12:46:35] % chmod 666 -R /dev/binder
+(001069) [12:46:35] % chmod 666 -R /dev/vndbinder
+(001069) [12:46:35] % chmod 666 -R /dev/hwbinder
+(001089) [23:34:51] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001089) [23:34:52] % modprobe -q ashmem_linux
+(001089) [23:34:52] % chmod 666 -R /dev/binder
+(001089) [23:34:52] % chmod 666 -R /dev/vndbinder
+(001089) [23:34:52] % chmod 666 -R /dev/hwbinder
+(001089) [23:40:55] Hardware service is not even started
+(001089) [23:40:55] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001089) [23:40:57] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001094) [23:41:47] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001094) [23:41:47] % modprobe -q ashmem_linux
+(001094) [23:41:47] % chmod 666 -R /dev/binder
+(001094) [23:41:47] % chmod 666 -R /dev/vndbinder
+(001094) [23:41:47] % chmod 666 -R /dev/hwbinder
+(001094) [00:20:44] Hardware service is not even started
+(001094) [00:20:44] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001094) [00:20:47] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001083) [00:21:41] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001083) [00:21:47] % modprobe -q ashmem_linux
+(001083) [00:21:47] % chmod 666 -R /dev/binder
+(001083) [00:21:47] % chmod 666 -R /dev/vndbinder
+(001083) [00:21:47] % chmod 666 -R /dev/hwbinder
+(001083) [01:39:38] Hardware service is not even started
+(001083) [01:39:38] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001083) [01:39:41] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001086) [12:28:35] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001086) [12:28:36] % modprobe -q ashmem_linux
+(001086) [12:28:36] % chmod 666 -R /dev/binder
+(001086) [12:28:36] % chmod 666 -R /dev/vndbinder
+(001086) [12:28:36] % chmod 666 -R /dev/hwbinder
+(001086) [13:07:03] Hardware service is not even started
+(001086) [13:07:03] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001086) [13:07:05] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001081) [13:08:04] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001081) [13:08:05] % modprobe -q ashmem_linux
+(001081) [13:08:05] % chmod 666 -R /dev/binder
+(001081) [13:08:05] % chmod 666 -R /dev/vndbinder
+(001081) [13:08:05] % chmod 666 -R /dev/hwbinder
+(007712) [13:37:17] WayDroid session is stopped
+(001084) [03:30:34] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001084) [03:30:34] % modprobe -q ashmem_linux
+(001084) [03:30:34] % chmod 666 -R /dev/binder
+(001084) [03:30:34] % chmod 666 -R /dev/vndbinder
+(001084) [03:30:34] % chmod 666 -R /dev/hwbinder
+(001080) [14:19:56] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001080) [14:19:56] % modprobe -q ashmem_linux
+(001080) [14:19:56] % chmod 666 -R /dev/binder
+(001080) [14:19:56] % chmod 666 -R /dev/vndbinder
+(001080) [14:19:56] % chmod 666 -R /dev/hwbinder
+(001080) [15:23:20] Hardware service is not even started
+(001080) [15:23:22] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001080) [15:23:26] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001077) [15:25:05] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001077) [15:25:05] % modprobe -q ashmem_linux
+(001077) [15:25:05] % chmod 666 -R /dev/binder
+(001077) [15:25:05] % chmod 666 -R /dev/vndbinder
+(001077) [15:25:05] % chmod 666 -R /dev/hwbinder
+(001104) [21:31:58] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001104) [21:31:58] % modprobe -q ashmem_linux
+(001104) [21:31:58] % chmod 666 -R /dev/binder
+(001104) [21:31:58] % chmod 666 -R /dev/vndbinder
+(001104) [21:31:58] % chmod 666 -R /dev/hwbinder
+(001104) [23:24:56] Hardware service is not even started
+(001104) [23:24:57] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001104) [23:25:01] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001090) [11:17:54] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001090) [11:17:54] % modprobe -q ashmem_linux
+(001090) [11:17:54] % chmod 666 -R /dev/binder
+(001090) [11:17:54] % chmod 666 -R /dev/vndbinder
+(001090) [11:17:54] % chmod 666 -R /dev/hwbinder
+(001090) [22:25:11] Hardware service is not even started
+(001090) [22:25:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001090) [22:25:17] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001077) [12:20:21] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001077) [12:20:21] % modprobe -q ashmem_linux
+(001077) [12:20:21] % chmod 666 -R /dev/binder
+(001077) [12:20:21] % chmod 666 -R /dev/vndbinder
+(001077) [12:20:21] % chmod 666 -R /dev/hwbinder
+(001077) [02:11:22] Hardware service is not even started
+(001077) [02:11:25] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001077) [02:11:28] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001075) [12:04:02] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001075) [12:04:03] % modprobe -q ashmem_linux
+(001075) [12:04:03] % chmod 666 -R /dev/binder
+(001075) [12:04:03] % chmod 666 -R /dev/vndbinder
+(001075) [12:04:03] % chmod 666 -R /dev/hwbinder
+(001075) [22:15:20] Hardware service is not even started
+(001075) [22:15:20] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001075) [22:15:23] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001074) [22:16:27] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001074) [22:16:28] % modprobe -q ashmem_linux
+(001074) [22:16:28] % chmod 666 -R /dev/binder
+(001074) [22:16:28] % chmod 666 -R /dev/vndbinder
+(001074) [22:16:28] % chmod 666 -R /dev/hwbinder
+(001074) [01:24:38] Hardware service is not even started
+(001074) [01:24:39] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001074) [01:24:43] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+waydroid-net isn't running
+(001088) [11:13:49] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001088) [11:13:50] % modprobe -q ashmem_linux
+(001088) [11:13:50] % chmod 666 -R /dev/binder
+(001088) [11:13:50] % chmod 666 -R /dev/vndbinder
+(001088) [11:13:50] % chmod 666 -R /dev/hwbinder
+(167745) [17:21:05] Starting waydroid session
+(001088) [17:21:05] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+success
+(001088) [17:21:12] % chmod 777 -R /dev/dri
+(001088) [17:21:12] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(001088) [17:21:12] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(001088) [17:21:13] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(001088) [17:21:13] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(001088) [17:21:13] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(001088) [17:21:13] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(001088) [17:21:14] Save config: /var/lib/waydroid/waydroid.cfg
+(001088) [17:21:14] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(001088) [17:21:14] New background process: pid=167828, output=background
+(001088) [17:21:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(167745) [17:24:16] waydroidusermonitor: Received transaction: 1
+(167745) [17:24:16] Android with user 0 is ready
+(167745) [17:24:17] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 169133
+--- adb starting (pid 169133) ---
+01-16 17:24:18.271 169133 169133 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-16 17:24:18.271 169133 169133 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-16 17:24:18.271 169133 169133 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-16 17:24:18.271 169133 169133 I adb     : main.cpp:63 Running on Linux 6.12.8-200.fc41.x86_64 (x86_64)
+01-16 17:24:18.271 169133 169133 I adb     : main.cpp:63 
+01-16 17:24:18.298 169133 169133 I adb     : auth.cpp:416 adb_auth_init...
+01-16 17:24:18.319 169133 169133 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-16 17:24:18.319 169133 169133 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-16 17:24:19.297 169133 169133 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-16 17:24:19.297 169133 169133 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(167745) [17:24:22] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(167745) [17:24:22] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(001088) [17:33:14] waydroidhardware: Received transaction: 3
+(001088) [17:33:15] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(001088) [17:33:15] % lxc-freeze -P /var/lib/waydroid/lxc -n waydroid
+(001088) [17:33:15] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(171572) [17:37:48] WayDroid session is stopped
+(001088) [17:38:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(001088) [17:38:14] % lxc-unfreeze -P /var/lib/waydroid/lxc -n waydroid
+(001088) [17:38:14] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(171707) [17:38:40] WayDroid session is stopped
+(001088) [17:38:48] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(167745) [17:39:05] waydroidusermonitor: Received transaction: 2
+(167745) [17:40:55] waydroidclipboard: Received transaction: 2
+(167745) [17:46:57] waydroidusermonitor: Received transaction: 1
+(167745) [17:46:58] Android with user 0 is ready
+(167745) [17:46:58] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 173935
+--- adb starting (pid 173935) ---
+01-16 17:46:59.971 173935 173935 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-16 17:46:59.971 173935 173935 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-16 17:46:59.971 173935 173935 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-16 17:46:59.971 173935 173935 I adb     : main.cpp:63 Running on Linux 6.12.8-200.fc41.x86_64 (x86_64)
+01-16 17:46:59.971 173935 173935 I adb     : main.cpp:63 
+01-16 17:47:00.059 173935 173935 I adb     : auth.cpp:416 adb_auth_init...
+01-16 17:47:00.126 173935 173935 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-16 17:47:00.126 173935 173935 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-16 17:47:01.059 173935 173935 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-16 17:47:01.059 173935 173935 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(167745) [17:47:15] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(167745) [17:47:15] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(001088) [17:48:31] waydroidhardware: Received transaction: 3
+(001088) [17:48:31] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(001088) [17:48:34] % lxc-freeze -P /var/lib/waydroid/lxc -n waydroid
+(001088) [17:48:37] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(001088) [18:02:30] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(001088) [18:02:31] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(001088) [18:02:31] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(001088) [18:02:31] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+iptables: Bad rule (does a matching rule exist in that chain?).
+/usr/lib/waydroid/data/scripts/waydroid-net.sh: line 257: kill: (167813) - No such process
+(001088) [18:02:32] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(001088) [18:02:32] % umount /var/lib/waydroid/rootfs/vendor
+(001088) [18:02:32] % umount /var/lib/waydroid/rootfs/vendor
+(001088) [18:02:32] % umount /var/lib/waydroid/rootfs
+(001088) [18:02:32] % umount /var/lib/waydroid/rootfs
+(177038) [18:02:41] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(177038) [18:02:41] % modprobe -q ashmem_linux
+(177038) [18:02:41] % chmod 666 -R /dev/binder
+(177038) [18:02:41] % chmod 666 -R /dev/vndbinder
+(177038) [18:02:41] % chmod 666 -R /dev/hwbinder
+(177118) [18:03:03] Starting waydroid session
+(177038) [18:03:03] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+success
+(177038) [18:03:04] % chmod 777 -R /dev/dri
+(177038) [18:03:04] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(177038) [18:03:04] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(177038) [18:03:04] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(177038) [18:03:04] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(177038) [18:03:05] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(177038) [18:03:05] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(177038) [18:03:05] Save config: /var/lib/waydroid/waydroid.cfg
+(177038) [18:03:05] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(177038) [18:03:05] New background process: pid=177186, output=background
+(177038) [18:03:05] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(177118) [18:04:20] waydroidusermonitor: Received transaction: 1
+(177118) [18:04:20] Android with user 0 is ready
+(177118) [18:04:20] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 178370
+--- adb starting (pid 178370) ---
+01-16 18:04:21.723 178370 178370 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-16 18:04:21.723 178370 178370 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-16 18:04:21.723 178370 178370 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-16 18:04:21.723 178370 178370 I adb     : main.cpp:63 Running on Linux 6.12.8-200.fc41.x86_64 (x86_64)
+01-16 18:04:21.723 178370 178370 I adb     : main.cpp:63 
+01-16 18:04:21.730 178370 178370 I adb     : auth.cpp:416 adb_auth_init...
+01-16 18:04:21.748 178370 178370 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-16 18:04:21.748 178370 178370 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-16 18:04:22.730 178370 178370 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-16 18:04:22.731 178370 178370 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(177118) [18:04:25] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(177118) [18:04:25] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(177038) [18:09:52] waydroidhardware: Received transaction: 3
+(177038) [18:09:52] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(177038) [18:09:52] % lxc-freeze -P /var/lib/waydroid/lxc -n waydroid
+(177038) [18:09:52] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(177038) [18:23:42] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(177038) [18:23:42] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(177038) [18:23:42] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(177038) [18:23:42] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+/usr/lib/waydroid/data/scripts/waydroid-net.sh: line 257: kill: (177173) - No such process
+(177038) [18:23:42] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(177038) [18:23:43] % umount /var/lib/waydroid/rootfs/vendor
+(177038) [18:23:43] % umount /var/lib/waydroid/rootfs/vendor
+(177038) [18:23:43] % umount /var/lib/waydroid/rootfs
+(177038) [18:23:43] % umount /var/lib/waydroid/rootfs
+(181120) [18:23:44] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(181120) [18:23:44] % modprobe -q ashmem_linux
+(181120) [18:23:44] % chmod 666 -R /dev/binder
+(181120) [18:23:44] % chmod 666 -R /dev/vndbinder
+(181120) [18:23:44] % chmod 666 -R /dev/hwbinder
+(181189) [18:24:04] Starting waydroid session
+(181120) [18:24:04] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(181120) [18:24:05] % chmod 777 -R /dev/dri
+(181120) [18:24:05] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(181120) [18:24:05] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(181120) [18:24:05] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(181120) [18:24:06] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(181120) [18:24:06] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(181120) [18:24:06] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(181120) [18:24:06] Save config: /var/lib/waydroid/waydroid.cfg
+(181120) [18:24:06] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(181120) [18:24:06] New background process: pid=181258, output=background
+(181120) [18:24:06] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(181120) [18:24:06] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(181120) [18:24:06] waiting 10 seconds for container to start...
+(181189) [18:25:21] waydroidusermonitor: Received transaction: 1
+(181189) [18:25:21] Android with user 0 is ready
+(181189) [18:25:21] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 182472
+--- adb starting (pid 182472) ---
+01-16 18:25:22.473 182472 182472 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-16 18:25:22.473 182472 182472 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-16 18:25:22.473 182472 182472 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-16 18:25:22.473 182472 182472 I adb     : main.cpp:63 Running on Linux 6.12.8-200.fc41.x86_64 (x86_64)
+01-16 18:25:22.473 182472 182472 I adb     : main.cpp:63 
+01-16 18:25:22.490 182472 182472 I adb     : auth.cpp:416 adb_auth_init...
+01-16 18:25:22.502 182472 182472 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-16 18:25:22.502 182472 182472 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-16 18:25:23.490 182472 182472 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-16 18:25:23.490 182472 182472 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(181189) [18:25:25] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(181189) [18:25:25] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(181120) [18:45:35] waydroidhardware: Received transaction: 3
+(181120) [18:45:35] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(181120) [18:45:36] % lxc-freeze -P /var/lib/waydroid/lxc -n waydroid
+(181120) [18:45:36] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(181120) [18:47:16] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+FROZEN
+(181120) [18:47:16] % lxc-stop -P /var/lib/waydroid/lxc -n waydroid -k
+lxc-start: waydroid: ../src/lxc/utils.c: run_buffer: 571 Script exited with status 126
+lxc-start: waydroid: ../src/lxc/start.c: lxc_end: 986 Failed to run lxc.hook.post-stop for container "waydroid"
+(181120) [18:47:16] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(181120) [18:47:16] % /usr/lib/waydroid/data/scripts/waydroid-net.sh stop
+vnic is waydroid0
+/usr/lib/waydroid/data/scripts/waydroid-net.sh: line 257: kill: (181245) - No such process
+(181120) [18:47:17] % umount /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(181120) [18:47:17] % umount /var/lib/waydroid/rootfs/vendor
+(181120) [18:47:17] % umount /var/lib/waydroid/rootfs/vendor
+(181120) [18:47:17] % umount /var/lib/waydroid/rootfs
+(181120) [18:47:17] % umount /var/lib/waydroid/rootfs
+(185799) [18:47:19] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(185799) [18:47:19] % modprobe -q ashmem_linux
+(185799) [18:47:19] % chmod 666 -R /dev/binder
+(185799) [18:47:19] % chmod 666 -R /dev/vndbinder
+(185799) [18:47:19] % chmod 666 -R /dev/hwbinder
+(185859) [18:47:33] Starting waydroid session
+(185799) [18:47:33] % /usr/lib/waydroid/data/scripts/waydroid-net.sh start
+vnic is waydroid0
+Warning: ZONE_ALREADY_SET: 'waydroid0' already bound to 'trusted'
+success
+(185799) [18:47:33] % chmod 777 -R /dev/dri
+(185799) [18:47:33] % mv /var/lib/waydroid/config_session /var/lib/waydroid/lxc/waydroid
+(185799) [18:47:33] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/system.img /var/lib/waydroid/rootfs
+(185799) [18:47:33] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay:/var/lib/waydroid/rootfs,upperdir=/var/lib/waydroid/overlay_rw/system,workdir=/var/lib/waydroid/overlay_work/system,xino=off overlay /var/lib/waydroid/rootfs
+(185799) [18:47:33] % mount -o context="system_u:object_r:waydroid_rootfs_t:s0",ro /var/lib/waydroid/images/vendor.img /var/lib/waydroid/rootfs/vendor
+(185799) [18:47:34] % mount -t overlay -o context="system_u:object_r:waydroid_rootfs_t:s0",ro,lowerdir=/var/lib/waydroid/overlay/vendor:/var/lib/waydroid/rootfs/vendor,upperdir=/var/lib/waydroid/overlay_rw/vendor,workdir=/var/lib/waydroid/overlay_work/vendor,xino=off overlay /var/lib/waydroid/rootfs/vendor
+(185799) [18:47:34] % mount -o bind /var/lib/waydroid/waydroid.prop /var/lib/waydroid/rootfs/vendor/waydroid.prop
+(185799) [18:47:34] Save config: /var/lib/waydroid/waydroid.cfg
+(185799) [18:47:34] % lxc-start -P /var/lib/waydroid/lxc -F -n waydroid -- /init
+(185799) [18:47:34] New background process: pid=185925, output=background
+(185799) [18:47:34] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(185799) [18:47:34] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+STOPPED
+(185799) [18:47:34] waiting 10 seconds for container to start...
+(185799) [18:47:35] % lxc-info -P /var/lib/waydroid/lxc -n waydroid -sH
+RUNNING
+(185799) [18:47:35] waiting 9 seconds for container to start...
+(185859) [18:48:36] waydroidusermonitor: Received transaction: 1
+(185859) [18:48:36] Android with user 0 is ready
+(185859) [18:48:36] % adb start-server
+* daemon not running; starting now at tcp:5037
+ADB server didn't ACK
+Full server startup log: /tmp/adb.1000.log
+Server had pid: 187036
+--- adb starting (pid 187036) ---
+01-16 18:48:37.900 187036 187036 I adb     : main.cpp:63 Android Debug Bridge version 1.0.41
+01-16 18:48:37.900 187036 187036 I adb     : main.cpp:63 Version 35.0.1-android-tools
+01-16 18:48:37.900 187036 187036 I adb     : main.cpp:63 Installed as /usr/bin/adb
+01-16 18:48:37.900 187036 187036 I adb     : main.cpp:63 Running on Linux 6.12.8-200.fc41.x86_64 (x86_64)
+01-16 18:48:37.900 187036 187036 I adb     : main.cpp:63 
+01-16 18:48:37.906 187036 187036 I adb     : auth.cpp:416 adb_auth_init...
+01-16 18:48:37.995 187036 187036 I adb     : auth.cpp:152 loaded new key from '/home/mmd/.android/adbkey' with fingerprint F55E4A35F34FBA94777A365FC13051326AD51F196407764DBB2A5B193B28553A
+01-16 18:48:37.995 187036 187036 I adb     : auth.cpp:391 adb_auth_inotify_init...
+01-16 18:48:38.906 187036 187036 E adb     : usb_libusb.cpp:571 failed to open device: Access denied (insufficient permissions)
+01-16 18:48:38.906 187036 187036 I adb     : transport.cpp:1150 R7AWC04FA7E: connection terminated: failed to open device: Access denied (insufficient permissions)
+adb: ../../libusb/io.c:1493: libusb_submit_transfer: Assertion `transfer->dev_handle' failed.
+
+* failed to start daemon
+error: cannot connect to daemon
+(185859) [18:48:42] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(185859) [18:48:42] NOTE: The failed command's output is above the ^^^ line in the log file: /var/lib/waydroid/waydroid.log
+(185859) [18:51:05] waydroidclipboard: Received transaction: 1
